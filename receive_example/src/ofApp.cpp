@@ -14,8 +14,11 @@ public:
             const auto &device = list[i];
             ofLogNotice() << i << ": " << device.name << " " << device.inputChannels;
         }
+        auto &target_device = list[3]; // select device id what you need to use
         ofSoundStreamSettings setting;
-        setting.setInDevice(list[0]);
+        setting.setInDevice(target_device);
+        setting.numInputChannels = target_device.inputChannels;
+        setting.sampleRate = target_device.sampleRates.front();
         receiver.setup(setting);
         receiver.onReceive([=](ofxLTCTimecode code) {
             received_timecodes.send(code);
